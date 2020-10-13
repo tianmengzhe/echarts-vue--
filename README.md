@@ -10,8 +10,8 @@
 
 目录设计
 
-koaServer 
-    app.js
+koaServer  服务端
+    app.js 入口文件
     data 数据文件夹
     middleware 中间件文件夹
         koa_response_data.js  读取文件内容 返回数据处理
