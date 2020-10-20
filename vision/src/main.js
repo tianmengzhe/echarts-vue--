@@ -9,8 +9,11 @@ import store from './store'
 // // 挂载到Vue原型上 this.$http访问
 // Vue.prototype.$http = axios
 
-// 单独封装
+// 单独封装axios
 
+// 引入全景css
+
+import 'assets/css/global.css'
 
 // 将全局的echarts对象挂载到Vue的原型对象上
 Vue.prototype.$echarts = window.echarts
