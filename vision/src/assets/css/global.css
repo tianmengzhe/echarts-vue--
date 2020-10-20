@@ -8,3 +8,7 @@ html, body, #app, .com-page, .con-container, .con-chart{
 li{
     list-style: none;
 }
+
+canvas{
+    border-radius: 20px;
+}
