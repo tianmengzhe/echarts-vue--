@@ -19,3 +19,24 @@ koaServer  服务端
         koa_response_header.js 设置响应头
     utils/
         file_utils.js 读取文件封装
+
+- 项目地图
+    + 前端项目准备
+        - vue-cli搭建项目
+        - 静态资源引入 在public 放入static静态资源
+        - 项目基本配置 vue.config.js 配置端口 和自动打开浏览器
+        - 全局echarts对象的挂载 在public index.html引入echarts
+        - axios封装与挂载
+
+    + 单独图表组件的开发
+        - 商家销售统计（横向柱状图）
+        - 销量趋势图表（折线图）
+        - 商家发布模块（地图+散点图）
+        - 销量排行模块（柱状图）
+        - 热销商品占比模块（饼图）
+        - 库存与销量模块（圆环饼图）
+
+    + webSocket的引入
+        - 
+    + 细节处理
+        - 主题切换
