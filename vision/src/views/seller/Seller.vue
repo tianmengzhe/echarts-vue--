@@ -1,12 +1,12 @@
 <!-- 商家效率横向柱状图 -->
 <template>
-  <div class="Seller con-container">
+  <div class="con-container">
     <div class="con-chart" ref="chart"></div>
   </div>
 </template>
 
 <script>
-import { getData } from "network/seller";
+import { getSeller } from "network/chart";
 export default {
   name: "Seller",
   data() {
@@ -20,7 +20,7 @@ export default {
   },
   async mounted() {
     this.initChart();
-    let { data } = await getData();
+    let { data } = await getSeller();
     this.data = data.sort((a, b) => a.value - b.value); // 小到大
     // 每5个元素显示一页
     this.totalPage = Math.ceil(this.data.length / 5);
@@ -178,7 +178,6 @@ export default {
     screenAdapter(){
       const w = this.$refs.chart.offsetWidth
       const titleSize = w / 100 * 3.6; // 标题大小
-      console.log(w, titleSize)
       // 和分辨率相关的配置
       const adapterOption = {
         title:{
