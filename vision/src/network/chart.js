@@ -8,3 +8,5 @@ export const getTrend = () => request('trend')
 export const getMapJSON = name => requestMap(name)
 
 export const getMap = () => request('map')
+
+export const getRank = () => request('rank')
