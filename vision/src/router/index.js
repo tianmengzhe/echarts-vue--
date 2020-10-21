@@ -4,12 +4,15 @@ const SellerPage = ()=>import('views/seller/SellerPage')
 const Seller = ()=>import('views/seller/Seller')
 const TrendPage = ()=>import('views/trend/TrendPage')
 const Trend = ()=>import('views/trend/Trend')
+const MapPage = ()=>import('views/map/MapPage')
+const Map = ()=>import('views/map/Map')
 
 Vue.use(VueRouter)
 
 const routes = [
   {path: '/SellerPage', component: SellerPage},
-  {path: '/TrendPage', component: TrendPage}
+  {path: '/TrendPage', component: TrendPage},
+  {path: '/MapPage', component: MapPage}
 ]
 
 const router = new VueRouter({

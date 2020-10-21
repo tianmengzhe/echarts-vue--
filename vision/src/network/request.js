@@ -2,7 +2,6 @@
 import axios from 'axios'
 
 
-
 export function request(config){
     const instance = axios.create({
         baseURL:'http://127.0.0.1:3000/api/',
@@ -21,5 +20,14 @@ export function request(config){
         return config
     },err=>{})
 
+    return instance(config)
+}
+
+// 获取本地文件 地图数据
+export function requestMap(config){
+    const instance = axios.create({
+        baseURL:'/static/map/',
+        timeout: 5000
+    })
     return instance(config)
 }
