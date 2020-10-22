@@ -10,3 +10,5 @@ export const getMapJSON = name => requestMap(name)
 export const getMap = () => request('map')
 
 export const getRank = () => request('rank')
+
+export const getHot = () => request('hotproduct')

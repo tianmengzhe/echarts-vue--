@@ -20,7 +20,6 @@ export default {
     return {
       char: null,
       data: null,
-      timer: null,
       type:'map',
       size: 0,
       showChoice: false
@@ -52,7 +51,6 @@ export default {
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
-    clearInterval(this.timer);
     window.removeEventListener("resize", this.screenAdapter);
   },
   methods: {
@@ -81,14 +79,6 @@ export default {
         yAxis: { type: "value" },
       };
       this.char.setOption(initOption);
-
-      // 鼠标移入停止 移出继续 更新数据
-      this.char.on("mouseover", () => {
-        clearInterval(this.timer);
-      });
-      this.char.on("mouseout", () => {
-        this.initerVal();
-      });
     },
     // 更新图表
     upChart() {

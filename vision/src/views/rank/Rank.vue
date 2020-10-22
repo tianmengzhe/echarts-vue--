@@ -45,7 +45,7 @@ export default {
       // 初始配置
       const initOption = {
         title: {
-          text: "▏商家销售统计",
+          text: "▏销量排行",
           left: 20,
           top: 20,
         },
@@ -134,7 +134,6 @@ export default {
         title: {
           textStyle: { fontSize: titleSize },
         },
-
         series: [
           {
             barWidth: titleSize,
