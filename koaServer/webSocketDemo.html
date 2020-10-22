@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="connection">连接 服务端</button>
+    <button id="send" disabled>发送数据</button>
+    从服务端接收数据：<br>
+    <span id='text'></span>
+    <script>
+        const connection = document.getElementById('connection')
+        const send = document.getElementById('send')
+        const text = document.getElementById('text')
+
+        let ws = null
+
+        // 建立连接
+        connection.onclick = function(){
+            ws = new WebSocket('ws://localhost:8889')
+
+            ws.onopen = function(){
+                console.log('连接成功')
+                send.disabled = false
+            }
+
+            // 监听 服务端向客户端发送数据事件
+            ws.onmessage = function(msg){
+                console.log('接收数据',msg.data)
+            }
+
+            ws.onclose = function(){
+                console.log('断开连接')
+                send.disabled = true
+            }
+        }
+        // 发送数据
+        send.onclick = function(){
+            ws.send('发送数据')
+        }
+    </script>
+</body>
+</html>

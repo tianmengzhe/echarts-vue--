@@ -7,6 +7,7 @@
 - 在响应头加上响应内容的mime类型  mime返回的数据类型
 - 根据URL读取指定目录下的文件内容
 - 允许跨域
+- 多屏联动
 
 目录设计
 
@@ -45,6 +46,23 @@ koaServer  服务端
         - 库存与销量模块（圆环饼图）
 
     + webSocket的引入
-        - 
+        - 后端
+            + 安装 npm i ws
+            + 导入创建websocket对象 const wss = new require('ws').Server({port:8899})
+            + 监听事件
+                - 连接事件 wss.on('connention', client=>{})
+                - 客户端发送事件 client.on('message', msg=>{})
+            + 发送数据给前端 client.send('xxx')
+        - 前端
+            + 创建ws对象 const ws = new WebSocket('ws://localhost:8899')
+            + 监听事件
+                - 连接成功事件 ws.oonopen = function(){}
+                - 接收数据事件 ws.onmesssage = function(){}
+                - 关闭连接事件 ws.onclose = function(){}
+            + 发送数据 wx.send('xxx')
+        - 改造项目
+            + 后端 
+                - 创建webSocket.js
+            + 前端
     + 细节处理
         - 主题切换
