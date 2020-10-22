@@ -7,8 +7,7 @@
         class="iconfont title-icon"
         :style="conStyle"
         @click="showChoice = !showChoice"
-        >&#xe6eb;</span
-      >
+        >&#xe6eb;</span >
       <ul class="select-con" v-show="showChoice">
         <li
           v-for="item in types"
@@ -56,13 +55,9 @@ export default {
   },
   async mounted() {
     this.initChart();
+    // 请求数据
     if(this.$isSocket){
-      this.$socket.send({  // 请求数据
-        action:'getData',
-        socketType:'trendData',
-        chartName:'trend',
-        value:''
-      })
+      this.$socket.send({ action:'getData',socketType:'trendData',chartName:'trend',value:'' })
     }else{
       await this.getData()
     }

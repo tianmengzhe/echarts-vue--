@@ -14,26 +14,44 @@ export default {
       char: null,
       data: [],
       timer: null,
-      zoomObj: {
-        start: 0,
-        end: 9,
-      },
+      zoomObj: { start: 0, end: 9 },
     };
+  },
+  created() {
+    this.$socket.addCallback("rankData", this.getData);
   },
   async mounted() {
     this.initChart();
-    let { data } = await getRank();
-    this.data = data.sort((a, b) => b.value - a.value); // 大到小
-    this.upChart();
+    if (this.$isSocket) {
+      this.$socket.send({
+        action: "getData",
+        socketType: "rankData",
+        chartName: "rank",
+        value: "",
+      });
+    } else {
+      await this.getData();
+    }
     this.initerVal();
     this.screenAdapter();
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
+    this.$socket.remove("rankData");
     clearInterval(this.timer);
     window.removeEventListener("resize", this.screenAdapter);
   },
   methods: {
+    async getData(sdata) {
+      if (this.$isSocket) {
+        this.data = sdata;
+      } else {
+        let { data } = await getRank();
+        this.data = data;
+      }
+      this.data = this.data.sort((a, b) => b.value - a.value); // 大到小
+      this.upChart();
+    },
     // 初始化
     initChart() {
       this.char = this.$echarts.init(this.$refs.chart, "chalk");
@@ -56,7 +74,7 @@ export default {
           bottom: "3%",
           containLabel: true, // 距离包含坐标轴上的文字
         },
-        dataZoom:{show: false},
+        dataZoom: { show: false },
         yAxis: { type: "value" },
         xAxis: { type: "category" },
         tooltip: { show: true },
@@ -96,11 +114,11 @@ export default {
     initerVal() {
       this.timer && clearInterval(this.timer);
       this.timer = setInterval(() => {
-        this.zoomObj.start++
-        this.zoomObj.end++
-        if(this.zoomObj.end > this.data.length - 1){
-            this.zoomObj.start = 0
-            this.zoomObj.end = 9
+        this.zoomObj.start++;
+        this.zoomObj.end++;
+        if (this.zoomObj.end > this.data.length - 1) {
+          this.zoomObj.start = 0;
+          this.zoomObj.end = 9;
         }
         this.upChart();
       }, 3000);
@@ -109,7 +127,8 @@ export default {
     },
     // 更新图表
     upChart() {
-      let provinceArr = [], valueArr = [];
+      let provinceArr = [],
+        valueArr = [];
       this.data.forEach(({ name, value }) => {
         provinceArr.push(name);
         valueArr.push(value);

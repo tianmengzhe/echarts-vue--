@@ -17,23 +17,36 @@ export default {
       mapData: {},
     };
   },
+   created(){
+    this.$socket.addCallback('mapData', this.getData)
+  },
   computed: {},
   async mounted() {
     this.initChart();
-    // 获取散点数据
-    let { data } = await getMap();
-    this.data = data;
-
-    console.log(data);
-
-    this.upChart();
+    // 请求数据
+    if(this.$isSocket){
+      this.$socket.send({ action:'getData',socketType:'mapData',chartName:'map',value:'' })
+    }else{
+      await this.getData()
+    }
+    
     this.screenAdapter();
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
+    this.$socket.remove('mapData')
     window.removeEventListener("resize", this.screenAdapter);
   },
   methods: {
+    async getData(sdata){
+       if(this.$isSocket){
+        this.data = sdata;
+      }else{
+        let { data } = await getMap();
+        this.data = data;
+      }
+      this.upChart();
+    },
     // 初始化
     async initChart() {
       this.char = this.$echarts.init(this.$refs.chart, "chalk");

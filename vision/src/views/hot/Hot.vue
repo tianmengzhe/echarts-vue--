@@ -24,16 +24,22 @@ export default {
       fSize: 50,
     };
   },
+  created(){
+    this.$socket.addCallback('hotData', this.getData)
+  },
   async mounted() {
     this.initChart();
-    let { data } = await getHot();
-    this.data = data;
-    console.log(data);
-    this.upChart();
+    // 请求数据
+    if(this.$isSocket){
+      this.$socket.send({ action:'getData',socketType:'hotData',chartName:'hotproduct',value:'' })
+    }else{
+      await this.getData()
+    }
     this.screenAdapter();
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
+    this.$socket.remove('hotData')
     window.removeEventListener("resize", this.screenAdapter);
   },
   computed: {
@@ -45,6 +51,15 @@ export default {
     },
   },
   methods: {
+   async getData(sdata){
+      if(this.$isSocket){
+        this.data = sdata;
+      }else{
+        let { data } = await getHot();
+        this.data = data;
+      }
+      this.upChart();
+    },
     sub() {
       this.cindex--;
       this.upChart();
@@ -148,7 +163,7 @@ export default {
 .left,
 .right {
   position: absolute;
-  top: 50%;
+  top: 60%;
   transform: translateY(-50%);
   cursor: pointer;
   color: white;

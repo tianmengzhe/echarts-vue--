@@ -19,22 +19,44 @@ export default {
       totalPage: 1,
     };
   },
+  created() {
+    this.$socket.addCallback("stockData", this.getData);
+  },
   async mounted() {
     this.initChart();
-    let { data } = await getStock();
-    this.data = data;
-    console.log(data);
-    this.totalPage = Math.ceil(this.data.length / 5);
-    this.upChart();
+    if (this.$isSocket) {
+      // 请求数据
+      this.$socket.send({
+        action: "getData",
+        socketType: "stockData",
+        chartName: "stock",
+        value: "",
+      });
+    } else {
+      await this.getData();
+    }
     this.initerVal();
-    this.screenAdapter();
+
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
+    this.$socket.remove("stockData");
     clearInterval(this.timer);
     window.removeEventListener("resize", this.screenAdapter);
   },
   methods: {
+    async getData(sdata) {
+      if (this.$isSocket) {
+        this.data = sdata;
+      } else {
+        let { data } = await getStock();
+        this.data = data;
+      }
+      console.log(this.data);
+      this.totalPage = Math.ceil(this.data.length / 5);
+      this.upChart();
+      this.screenAdapter();
+    },
     // 初始化
     initChart() {
       this.char = this.$echarts.init(this.$refs.chart, "chalk");
@@ -45,7 +67,7 @@ export default {
           text: "▏库存和销量分析",
           left: 20,
           top: 20,
-        }
+        },
       };
       this.char.setOption(initOption);
 
@@ -60,7 +82,6 @@ export default {
     initerVal() {
       this.timer && clearInterval(this.timer);
       this.timer = setInterval(() => {
-        console.log("setInterval");
         this.currentpage++;
         this.currentpage =
           this.currentpage > this.totalPage ? 1 : this.currentpage;
@@ -87,7 +108,6 @@ export default {
       let start = (this.currentpage - 1) * 5;
       let end = this.currentpage * 5;
       this.showData = this.data.slice(start, end);
-      console.log(this.showData);
       this.showData.forEach(({ name, value, sales, stock }, i) => {
         serArr.push({
           type: "pie",
@@ -126,10 +146,9 @@ export default {
     screenAdapter() {
       const w = this.$refs.chart.offsetWidth;
       const titleSize = (w / 100) * 3.6; // 标题大小
-
       let seriesArr = this.showData.map(() => ({
         type: "pie",
-        radius: [titleSize * 2.8, titleSize * 2.6 ],
+        radius: [titleSize * 2.8, titleSize * 2.6],
         label: { fontSize: titleSize / 2 },
       }));
 

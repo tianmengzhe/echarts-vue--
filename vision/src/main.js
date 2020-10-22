@@ -10,7 +10,7 @@ import SocketServer from './network/socket_server'
 
 
 // setTimeout(()=>{ SocketServer.Instance.connect()},3000) // 模拟还在连接中状态
-SocketServer.Instance.connect()
+SocketServer.Instance.connect(IS_WEBSCOKET)
 Vue.prototype.$socket = SocketServer.Instance // this.$socket
 
 Vue.prototype.$isSocket = IS_WEBSCOKET
