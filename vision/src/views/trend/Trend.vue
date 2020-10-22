@@ -2,11 +2,23 @@
 <template>
   <div class="con-container">
     <div class="title noselect" :style="conStyle">
-     <span> ▏{{title}}</span>
-     <span class="iconfont title-icon" :style="conStyle" @click="showChoice=!showChoice">&#xe6eb;</span>
-     <ul class="select-con" v-show="showChoice" >
-       <li v-for="item in types" :key="item.key" class="select-item" @click="typeClick(item.key)">{{item.text}}</li>
-     </ul>
+      <span> ▏{{ title }}</span>
+      <span
+        class="iconfont title-icon"
+        :style="conStyle"
+        @click="showChoice = !showChoice"
+        >&#xe6eb;</span
+      >
+      <ul class="select-con" v-show="showChoice">
+        <li
+          v-for="item in types"
+          :key="item.key"
+          class="select-item"
+          @click="typeClick(item.key)"
+        >
+          {{ item.text }}
+        </li>
+      </ul>
     </div>
     <div class="con-chart" ref="chart"></div>
   </div>
@@ -25,6 +37,9 @@ export default {
       showChoice: false
     };
   },
+  created(){
+    this.$socket.addCallback('trendData', this.getData)
+  },
   computed:{
     types(){
       return this.data ? this.data.type.filter(item=>item.key !== this.type) : []
@@ -41,19 +56,34 @@ export default {
   },
   async mounted() {
     this.initChart();
-    let { data } = await getTrend();
-    this.data = data;
-
-    console.log(this.data);
-
-    this.upChart();
+    if(this.$isSocket){
+      this.$socket.send({  // 请求数据
+        action:'getData',
+        socketType:'trendData',
+        chartName:'trend',
+        value:''
+      })
+    }else{
+      await this.getData()
+    }
     this.screenAdapter();
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
+    this.$socket.remove('trendData') // 组件销毁 取消回调函数
     window.removeEventListener("resize", this.screenAdapter);
   },
   methods: {
+    // sdata 通过socket服务端发送过来的数据
+    async getData(sdata){
+      if(this.$isSocket){
+        this.data = sdata;
+      }else{
+        let { data } = await getTrend();
+        this.data = data;
+      }
+      this.upChart();
+    },
     // 初始化
     initChart() {
       this.char = this.$echarts.init(this.$refs.chart, "chalk");
@@ -156,22 +186,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.title{
+.title {
   position: absolute;
-  top:20px;
+  top: 20px;
   left: 20px;
   z-index: 10;
   color: white;
-  
-  .title-icon{
+
+  .title-icon {
     margin-left: 10px;
     cursor: pointer;
   }
-  .select-item{
+  .select-item {
     cursor: pointer;
     padding-left: 1.5rem;
     background-color: #222733;
   }
 }
-
 </style>

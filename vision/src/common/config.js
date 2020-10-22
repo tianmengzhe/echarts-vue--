@@ -1,0 +1,1 @@
+export const IS_WEBSCOKET = true; // 是否启用webscoket方式请求数据

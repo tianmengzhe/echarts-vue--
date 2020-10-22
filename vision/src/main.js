@@ -3,10 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import { IS_WEBSCOKET } from './common/config'
+
 // 连接webScoket
 import SocketServer from './network/socket_server'
+
+
+// setTimeout(()=>{ SocketServer.Instance.connect()},3000) // 模拟还在连接中状态
 SocketServer.Instance.connect()
 Vue.prototype.$socket = SocketServer.Instance // this.$socket
+
+Vue.prototype.$isSocket = IS_WEBSCOKET
 
 
 // import axios from 'axios'
