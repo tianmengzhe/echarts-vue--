@@ -45,7 +45,7 @@ export default {
           text: "▏库存和销量分析",
           left: 20,
           top: 20,
-        },
+        }
       };
       this.char.setOption(initOption);
 

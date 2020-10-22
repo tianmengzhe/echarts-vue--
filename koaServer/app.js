@@ -36,7 +36,7 @@ app.listen(3000,()=>console.log('服务器启动成功 http://localhost:3000'))
 //         client.send(JSON.stringify({name:'fff',age:18}))
 //     })
 // })
-const wssServer = require('./webSocket_server')
+const wssServer = require('./server/webSocket_server')
 wssServer.wss() // 开启监听客户端的连接
 
 // 接收客户端数据字段约定

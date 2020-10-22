@@ -63,6 +63,25 @@ koaServer  服务端
         - 改造项目
             + 后端 
                 - 创建webSocket.js
+                - 接收/发送数据约定
             + 前端
+                - 创建 socket_server.js 
+                    + 定义类SocketServer 定义为单例模式
+                    + 定义连接服务器方法connect
+                        - 创建webSocket对象 连接服务器
+                        - 在main.js中调用
+                    + 监听事件
+                        - onopen
+                        - onmessage
+                        - onclose
+                    + 存储回调函数
+                    + 接收数据处理
+                    + 定义发送数据的方法
+                    + 挂载到Vue原型
+                - 组件的改造
+                - 优化
+
+        
     + 细节处理
         - 主题切换
+

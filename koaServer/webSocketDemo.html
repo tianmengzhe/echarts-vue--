@@ -28,7 +28,7 @@
 
             // 监听 服务端向客户端发送数据事件
             ws.onmessage = function(msg){
-                console.log('接收数据',msg.data)
+                console.log('接收数据',JSON.parse(msg.data))
             }
 
             ws.onclose = function(){
@@ -38,7 +38,21 @@
         }
         // 发送数据
         send.onclick = function(){
-            ws.send('发送数据')
+            // 获取数据
+            // ws.send(JSON.stringify({
+            //     action:'getData',
+            //     socketType:'sellerData',
+            //     chartName:'seller',
+            //     value:''
+            // }))
+
+            // 切换主题
+            ws.send(JSON.stringify({
+                action:'fullScreen',
+                socketType:'fullScreen',
+                chartName:'',
+                value:true
+            }))
         }
     </script>
 </body>
