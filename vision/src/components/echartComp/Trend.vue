@@ -77,6 +77,7 @@ export default {
         let { data } = await getTrend();
         this.data = data;
       }
+      console.log('Trend',this.data )
       this.upChart();
     },
     // 初始化

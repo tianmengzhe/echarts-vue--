@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Stock from './Stock'
+import Stock from 'components/echartComp/Stock'
 export default {
   name: 'StockPage',
   components:{Stock},

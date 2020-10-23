@@ -63,12 +63,12 @@ export default {
       // 初始配置
       const initOption = {
         title: {
-          text: "▏销量排行",
+          text: "▏地区销量排行图表",
           left: 20,
           top: 20,
         },
         grid: {
-          top: "20%",
+          top: "30%",
           left: "3%",
           right: "6%",
           bottom: "3%",

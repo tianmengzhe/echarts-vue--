@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Map from './Map'
+import Map from 'components/echartComp/Map'
 export default {
   name: 'MapPage',
   components:{Map},

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Rank from './Rank'
+import Rank from 'components/echartComp/Rank'
 export default {
   name: 'RankPage',
   components:{Rank},

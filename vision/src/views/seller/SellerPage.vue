@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Seller from './Seller'
+import Seller from 'components/echartComp/Seller'
 export default {
   name: 'SellerPage',
   components:{Seller},

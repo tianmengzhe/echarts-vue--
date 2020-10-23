@@ -87,7 +87,7 @@ export default {
           containLabel: true, // 距离包含坐标轴上的文字
         },
         legend: {
-          top: "12%",
+          top: "15%",
           icon: "circle",
         },
         tooltip: {
@@ -141,11 +141,11 @@ export default {
       // 和分辨率相关的配置
       const adapterOption = {
         title: {
-          textStyle: { fontSize: titleSize / 2 },
+          textStyle: { fontSize: titleSize },
         },
         legend: {
-          itemWidth: titleSize / 2,
-          itemHeight: titleSize / 2,
+          itemWidth: titleSize ,
+          itemHeight: titleSize ,
           itemGap: titleSize / 2,
           textStyle: { fontSize: titleSize / 2 },
         },

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Hot from './Hot'
+import Hot from 'components/echartComp/Hot'
 export default {
   name: 'HotPage',
   components:{Hot},

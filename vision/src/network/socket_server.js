@@ -70,7 +70,7 @@ export default class SocketServer {
 
                 // 全屏 fullScreen
                 if (action === 'fullScreen') {
-
+                    this.callBackMapping[socketType].call(this, res)
                 }
 
                 // 切换主题 themeChange
@@ -91,7 +91,6 @@ export default class SocketServer {
     }
     // 发送数据
     send(data) {
-        console.log(this.connected)
         if (this.connected) {
             this.ws.send(JSON.stringify(data))
         } else {

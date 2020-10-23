@@ -36,7 +36,6 @@ export default {
       await this.getData();
     }
     this.initerVal();
-
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
@@ -52,7 +51,7 @@ export default {
         let { data } = await getStock();
         this.data = data;
       }
-      console.log(this.data);
+      console.log('stock',this.data);
       this.totalPage = Math.ceil(this.data.length / 5);
       this.upChart();
       this.screenAdapter();
@@ -115,7 +114,7 @@ export default {
           data: [
             {
               value: sales, // 销量
-              name: name + "\n" + sales,
+              name: name + "\n\n" + sales,
               itemStyle: {
                 color: new this.$echarts.graphic.LinearGradient(0, 1, 0, 0, [
                   { offset: 0, color: colorArr[i][0] },
@@ -148,7 +147,7 @@ export default {
       const titleSize = (w / 100) * 3.6; // 标题大小
       let seriesArr = this.showData.map(() => ({
         type: "pie",
-        radius: [titleSize * 2.8, titleSize * 2.6],
+        radius: [titleSize * 3, titleSize * 2.8],
         label: { fontSize: titleSize / 2 },
       }));
 

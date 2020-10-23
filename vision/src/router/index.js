@@ -8,24 +8,21 @@ const MapPage = () => import('views/map/MapPage')
 const RankPage = () => import('views/rank/RankPage')
 const HotPage = () => import('views/hot/HotPage')
 const StockPage = () => import('views/stock/StockPage')
+const Home = () => import('views/home/Home')
 
-const Seller = () => import('views/seller/Seller')
-const Trend = () => import('views/trend/Trend')
-const Map = () => import('views/map/Map')
-const Rank = () => import('views/rank/Rank')
-const Hot = () => import('views/hot/Hot')
-const Stock = () => import('views/stock/Stock')
 
 Vue.use(VueRouter)
 
 
 const routes = [
-  { path: '/SellerPage', component: SellerPage },
-  { path: '/TrendPage', component: TrendPage },
-  { path: '/MapPage', component: MapPage },
-  { path: '/RankPage', component: RankPage },
-  { path: '/HotPage', component: HotPage },
-  { path: '/StockPage', component: StockPage }
+  { path: '/', redirect:'/Home'},
+  { path: '/SellerPage',name:'sellerPage', component: SellerPage },
+  { path: '/TrendPage',name:'trendPage', component: TrendPage },
+  { path: '/MapPage',name:'mapPage', component: MapPage },
+  { path: '/RankPage',name:'rankPage', component: RankPage },
+  { path: '/HotPage',name:'hotPage', component: HotPage },
+  { path: '/StockPage',name:'stockPage', component: StockPage },
+  { path: '/Home',name:'home', component: Home }
 ]
 
 const router = new VueRouter({
