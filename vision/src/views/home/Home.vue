@@ -1,7 +1,7 @@
 <template>
   <div class="screen-container">
 
-     <home-header :logoSrc="logoSrc" :headerSrc="headerSrc"  :themeSrc="themeSrc" @themeChange="themeChange"/>
+     <home-header :logoSrc="logoSrc" :headerSrc="headerSrc"  :themeSrc="themeSrc" @themeChange="themeChangePage"/>
 
      <div class="screen-body">
       <section class="screen-left">
@@ -55,7 +55,7 @@ import Stock from 'components/echartComp/Stock'
 
 import HomeHeader from './child/HomeHeader'
 
-import { mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 import { getThemeValue } from 'common/theme_utils'
 export default {
   name: 'home',
@@ -90,9 +90,11 @@ export default {
   },
   created(){
     this.$socket.addCallback('fullScreen', this.fullScreen)
+    this.$socket.addCallback('themeChange', this.themeChange)
   },
   destroyed(){
     this.$socket.remove('fullScreen')
+    this.$socket.remove('themeChange')
   },
   methods:{
     resizeClick(type){
@@ -103,7 +105,7 @@ export default {
       //   this.$refs[type].screenAdapter()
       // })
 
-      // 同步到其它浏览器
+      // 同步到所有连接的浏览器
       this.$socket.send({
           action:'fullScreen',
           socketType: 'fullScreen',
@@ -118,8 +120,16 @@ export default {
         this.$refs[data.chartName].screenAdapter()
       })
     },
+    themeChangePage(){
+      // 主题切换同步到所有连接的浏览器
+      this.$socket.send({
+          action:'themeChange',
+          socketType: 'themeChange',
+          chartName: '',
+      })
+    },
     themeChange(){
-      // 主题切换
+      this.$store.commit('changeTheme')
     }
 
   }

@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { themeMixin } from 'common/mixin'
+// import { mapState } from 'vuex'
 import { getHot } from "network/chart";
 export default {
   name: "Rank",
@@ -24,6 +26,27 @@ export default {
       fSize: 50,
     };
   },
+  mixins:[ themeMixin ],
+  computed: {
+    // ...mapState(['theme']),
+    title() {
+      return this.data ? this.data[this.cindex].name : "";
+    },
+    size() {
+      return this.fSize + "px";
+    },
+  },
+  // watch:{
+  //   theme(){
+  //     console.log('主题切换了')
+  //     if(this.char){
+  //       this.char.dispose() // 销毁单前图表
+  //       this.initChart() // 重新以新的主题名称初始化图表
+  //       this.screenAdapter() // 更新屏幕适配
+  //       this.upChart() // 更新图表的展示
+  //     }
+  //   }
+  // },
   created(){
     this.$socket.addCallback('hotData', this.getData)
   },
@@ -41,14 +64,6 @@ export default {
   destroyed() {
     this.$socket.remove('hotData')
     window.removeEventListener("resize", this.screenAdapter);
-  },
-  computed: {
-    title() {
-      return this.data ? this.data[this.cindex].name : "";
-    },
-    size() {
-      return this.fSize + "px";
-    },
   },
   methods: {
    async getData(sdata){
@@ -70,7 +85,7 @@ export default {
     },
     // 初始化
     initChart() {
-      this.char = this.$echarts.init(this.$refs.chart, "chalk");
+      this.char = this.$echarts.init(this.$refs.chart, this.theme);
 
       // 初始配置
       const initOption = {

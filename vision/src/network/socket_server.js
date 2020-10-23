@@ -75,7 +75,7 @@ export default class SocketServer {
 
                 // 切换主题 themeChange
                 if (action === 'themeChange') {
-
+                    this.callBackMapping[socketType].call(this, res)
                 }
             }
         }
