@@ -4,7 +4,7 @@
       <img :src="headerSrc" alt="" />
     </div>
     <span class="logo">
-      <img :src="logoSrc" alt="" />
+      <!-- <img :src="logoSrc" alt="" /> -->
     </span>
     <span class="title">电商平台实时监控系统</span>
     <div class="title-right">
@@ -15,12 +15,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { getThemeValue } from 'common/theme_utils'
 export default {
   name: "",
-  props: {
-    headerSrc: String,
-    logoSrc: String,
-    themeSrc: String
+  computed: {
+    ...mapState(['theme']),
+    logoSrc () {
+      return '/static/img/'+ getThemeValue(this.theme).logoSrc
+    },
+    headerSrc () {
+      return '/static/img/'+ getThemeValue(this.theme).headerBorderSrc
+    },
+    themeSrc () {
+      return '/static/img/'+ getThemeValue(this.theme).themeSrc
+    },
   },
   data() {
     return {};

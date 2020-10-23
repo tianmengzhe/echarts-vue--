@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { themeMixin } from 'common/mixin'
 import { getProvinceMapInfo } from "common/map_utils";
 import { getMap, getMapJSON } from "network/chart";
 export default {
@@ -17,7 +18,8 @@ export default {
       mapData: {},
     };
   },
-   created(){
+   mixins:[ themeMixin ],
+  created(){
     this.$socket.addCallback('mapData', this.getData)
   },
   computed: {},
@@ -49,7 +51,7 @@ export default {
     },
     // 初始化
     async initChart() {
-      this.char = this.$echarts.init(this.$refs.chart, "chalk");
+      this.char = this.$echarts.init(this.$refs.chart, this.theme);
 
       // 获取中国地图矢量数据 注册地图数据 配置geo
       let { data } = await getMapJSON("china.json");

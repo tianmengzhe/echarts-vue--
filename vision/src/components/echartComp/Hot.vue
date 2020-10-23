@@ -2,17 +2,16 @@
 <template>
   <div class="con-container noselect">
     <div class="con-chart" ref="chart"></div>
-    <span class="iconfont left" @click="sub" :style="{ fontSize: size }"
-      >&#xe6ef;</span
-    >
-    <span class="iconfont right" @click="add" :style="{ fontSize: size }"
-      >&#xe6ed;</span
-    >
-    <span class="name" :style="{ fontSize: size }">{{ title }}</span>
+    <span class="iconfont left" @click="sub" :style="conStyle">&#xe6ef;</span>
+    <span class="iconfont right" @click="add" :style="conStyle">&#xe6ed;</span>
+    <span class="name" :style="conStyle">{{ title }}</span>
   </div>
 </template>
 
 <script>
+
+// 在热刷新时数据加载失败   destroyed 比 created 后执行
+
 import { themeMixin } from 'common/mixin'
 // import { mapState } from 'vuex'
 import { getHot } from "network/chart";
@@ -29,16 +28,19 @@ export default {
   mixins:[ themeMixin ],
   computed: {
     // ...mapState(['theme']),
+    conStyle(){
+      return {
+        fontSize: this.fSize + "px",
+        color: this.theme == 'chalk' ? '#fff':'#000'
+      }
+    },
     title() {
       return this.data ? this.data[this.cindex].name : "";
-    },
-    size() {
-      return this.fSize + "px";
-    },
+    } 
   },
   // watch:{
   //   theme(){
-  //     console.log('主题切换了')
+  //     console.log('主题切换了') 
   //     if(this.char){
   //       this.char.dispose() // 销毁单前图表
   //       this.initChart() // 重新以新的主题名称初始化图表
@@ -46,8 +48,9 @@ export default {
   //       this.upChart() // 更新图表的展示
   //     }
   //   }
-  // },
+  // }, 
   created(){
+    console.log('created') 
     this.$socket.addCallback('hotData', this.getData)
   },
   async mounted() {
@@ -62,11 +65,12 @@ export default {
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
-    this.$socket.remove('hotData')
+     console.log('destroyed---', )  
+    this.$socket.remove('hotData');
     window.removeEventListener("resize", this.screenAdapter);
   },
   methods: {
-   async getData(sdata){
+    async getData(sdata){
       if(this.$isSocket){
         this.data = sdata;
       }else{

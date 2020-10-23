@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { themeMixin } from 'common/mixin'
 import { getStock } from "network/chart";
 export default {
   name: "Stock",
@@ -19,15 +20,17 @@ export default {
       totalPage: 1,
     };
   },
+  mixins:[ themeMixin ],
   created() {
     this.$socket.addCallback("stockData", this.getData);
   },
   async mounted() {
+    console.log('mounted')
     this.initChart();
     if (this.$isSocket) {
       // 请求数据
       this.$socket.send({
-        action: "getData",
+        action: "getData", 
         socketType: "stockData",
         chartName: "stock",
         value: "",
@@ -35,7 +38,8 @@ export default {
     } else {
       await this.getData();
     }
-    this.initerVal();
+    
+    this.initerVal(); 
     window.addEventListener("resize", this.screenAdapter);
   },
   destroyed() {
@@ -51,15 +55,13 @@ export default {
         let { data } = await getStock();
         this.data = data;
       }
-      console.log('stock',this.data);
       this.totalPage = Math.ceil(this.data.length / 5);
       this.upChart();
       this.screenAdapter();
     },
     // 初始化
     initChart() {
-      this.char = this.$echarts.init(this.$refs.chart, "chalk");
-
+      this.char = this.$echarts.init(this.$refs.chart, this.theme);
       // 初始配置
       const initOption = {
         title: {

@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { themeMixin } from 'common/mixin'
 import { getRank } from "network/chart";
 export default {
   name: "Rank",
@@ -17,6 +18,7 @@ export default {
       zoomObj: { start: 0, end: 9 },
     };
   },
+   mixins:[ themeMixin ],
   created() {
     this.$socket.addCallback("rankData", this.getData);
   },
@@ -54,7 +56,7 @@ export default {
     },
     // 初始化
     initChart() {
-      this.char = this.$echarts.init(this.$refs.chart, "chalk");
+      this.char = this.$echarts.init(this.$refs.chart, this.theme);
       const colorArr = [
         ["#0BA82C", "#4FF778"],
         ["#2E72BF", "#23E5E5"],

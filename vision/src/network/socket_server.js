@@ -57,25 +57,28 @@ export default class SocketServer {
                 this.connect()
             }, this.connecteRetryCount * 500)
         }
-        this.ws.onmessage = msg => {
+        let _this = this
+        this.ws.onmessage = function(msg){
             // msg.data 服务端发送的数据
             const res = JSON.parse(msg.data)
             let { socketType, action, data } = res
-            if (this.callBackMapping[socketType]) {
+            
+            if (_this.callBackMapping[socketType]) { // 在热刷新时可能没有  this.callBackMapping  this指向了ws
 
                 // 获取数据
                 if (action === 'getData') {
-                    this.callBackMapping[socketType].call(this, data)
+                    console.log('socketType',socketType)
+                    _this.callBackMapping[socketType].call(_this, data)
                 }
 
                 // 全屏 fullScreen
                 if (action === 'fullScreen') {
-                    this.callBackMapping[socketType].call(this, res)
+                    _this.callBackMapping[socketType].call(_this, res)
                 }
 
                 // 切换主题 themeChange
                 if (action === 'themeChange') {
-                    this.callBackMapping[socketType].call(this, res)
+                    _this.callBackMapping[socketType].call(_this, res)
                 }
             }
         }
@@ -87,6 +90,7 @@ export default class SocketServer {
     }
     // 移除回调
     remove(socketType) {
+        console.log('remove', socketType)
         this.callBackMapping[socketType] = null
     }
     // 发送数据

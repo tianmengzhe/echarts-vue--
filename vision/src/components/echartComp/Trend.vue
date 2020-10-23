@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { themeMixin } from 'common/mixin'
 import { getTrend } from "network/chart";
 export default {
   name: "Trend",
@@ -36,6 +37,7 @@ export default {
       showChoice: false
     };
   },
+  mixins:[ themeMixin ],
   created(){
     this.$socket.addCallback('trendData', this.getData)
   },
@@ -82,9 +84,8 @@ export default {
     },
     // 初始化
     initChart() {
-      this.char = this.$echarts.init(this.$refs.chart, "chalk");
-
-      // 初始配置
+      this.char = this.$echarts.init(this.$refs.chart, this.theme);
+      // 初始配置 
       const initOption = {
         grid: {
           left: "3%",

@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { themeMixin } from 'common/mixin'
 import { getSeller } from "network/chart";
 export default {
   name: "Seller",
@@ -18,6 +19,7 @@ export default {
       timer: null,
     };
   },
+   mixins:[ themeMixin ],
   created() {
     this.$socket.addCallback("sellerData", this.getData);
   },
@@ -58,7 +60,7 @@ export default {
     },
     // 初始化
     initChart() {
-      this.char = this.$echarts.init(this.$refs.chart, "chalk");
+      this.char = this.$echarts.init(this.$refs.chart, this.theme);
 
       // 初始配置
       const initOption = {

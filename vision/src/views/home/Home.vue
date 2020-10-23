@@ -1,7 +1,7 @@
 <template>
-  <div class="screen-container">
+  <div class="screen-container" :class="screenStyle">
 
-     <home-header :logoSrc="logoSrc" :headerSrc="headerSrc"  :themeSrc="themeSrc" @themeChange="themeChangePage"/>
+     <home-header @themeChange="themeChangePage" />
 
      <div class="screen-body">
       <section class="screen-left">
@@ -52,11 +52,10 @@ import Rank from 'components/echartComp/Rank'
 import Seller from 'components/echartComp/Seller'
 import Stock from 'components/echartComp/Stock'
 
-
 import HomeHeader from './child/HomeHeader'
 
-import { mapMutations } from 'vuex'
-import { getThemeValue } from 'common/theme_utils'
+import { mapState } from 'vuex'
+
 export default {
   name: 'home',
   components:{
@@ -64,16 +63,10 @@ export default {
     Trend,Hot,Map,Rank,Seller,Stock
   },
   computed: {
-    logoSrc () {
-      return '/static/img/logo_dark.png'
-    },
-    headerSrc () {
-      return '/static/img/header_border_dark.png'
-    },
-    themeSrc () {
-      return '/static/img/qiehuan_dark.png'
-    },
-   
+    ...mapState(['theme']),
+    screenStyle(){
+      return this.theme === 'chalk' ? '' :'vit'
+    }
   },
   data() { 
     return {
@@ -88,7 +81,7 @@ export default {
       }
     }
   },
-  created(){
+  created(){ 
     this.$socket.addCallback('fullScreen', this.fullScreen)
     this.$socket.addCallback('themeChange', this.themeChange)
   },
@@ -155,6 +148,10 @@ export default {
   background-color: #161522;
   color: #fff;
   box-sizing: border-box;
+}
+.vit{
+  background-color: #eeeeee;
+  color: #161522;
 }
 .screen-body {
   width: 100%;
